@@ -6,12 +6,12 @@ def home(request):
     return render(request, 'home.html')
 
 
-def contact(request):
+def contacts(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
         if form.is_valid():
-            return render(request, 'catalog/contact.html', {'success': True})
+            return render(request, 'catalog/contacts.html', {'success': True})
         print('Запись получена')
     else:
         form = FeedbackForm()
-    return render(request, 'catalog/contact.html', {'form': form, 'success': False})
+    return render(request, 'catalog/contacts.html', {'form': form, 'success': False})
