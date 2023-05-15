@@ -15,3 +15,4 @@ def contacts(request):
     else:
         form = FeedbackForm()
     return render(request, 'catalog/contacts.html', {'form': form, 'success': False})
+
