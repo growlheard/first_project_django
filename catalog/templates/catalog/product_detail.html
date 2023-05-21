@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load mediapath %}
+{% block content %}
+<div class="container">
+    <div class="card text-center">
+        <div class="card-header">
+            <h1 class="card-title mb-0">{{ product.name }}</h1>
+            <div class="card-footer">
+                        <img src="{% mediapath product.image %}" alt="{{ product.name }}"width="500" height="300">
+                    </div>
+            <small class="text-muted">{{ product.category }}</small>
+        </div>
+        <div class="card-body">
+            <p class="lead">{{ product.description }}</p>
+            <h4 class="card-title">{{ product.price }} руб.</h4>
+            <a href="#" class="btn btn-primary">Купить</a>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">{{ product.changed_date | date }}</small>
+        </div>
+
+        <style>
+            .card-header {
+                background-color: #f8f9fa;
+            }
+
+            .card-footer {
+                background-color: #f8f9fa;
+            }
+        </style>
+        {% endblock %}

@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/catalog/fixtures/catalog_data.json" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/catalog/management/commands/fill.py" charset="UTF-16" />
+    <file url="file://$PROJECT_DIR$/catalog_data.json" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/data.json" charset="windows-1251" />
   </component>
 </project>

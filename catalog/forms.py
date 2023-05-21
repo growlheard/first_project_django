@@ -1,7 +1,20 @@
 from django import forms
+from .models import Product
 
 
 class FeedbackForm(forms.Form):
     name = forms.CharField(label='Ваше имя', max_length=100)
     phone = forms.EmailField(label='Ваш телефон', max_length=100)
     message = forms.CharField(label='Сообщение', widget=forms.Textarea)
+
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+
+class ProductUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        exclude = ()

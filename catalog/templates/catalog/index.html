@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load mediapath %}
+{% block content %}
+    <div class="row">
+        {% for product in products %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <h1 class="card-title mb-0 text-center">{{ product.name }}</h1>
+                    <div class="card-footer text-center">
+                        <img src="{% mediapath product.image %}" alt="{{ product.name }}" width="300" height="200">
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description|slice:":100" }}</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <span class="text-muted">Цена: {{ product.price }}</span>
+                    </div>
+                    <div class="card-footer text-left">
+                        <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -17,6 +17,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name='ID')
     name = models.CharField(max_length=255, verbose_name='Название продукта')
     description = models.TextField(max_length=255, verbose_name='Описание Продукта', **NULLABLE)
     image = models.ImageField(upload_to='product_images/', verbose_name='', **NULLABLE)
