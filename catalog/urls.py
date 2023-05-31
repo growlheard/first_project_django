@@ -1,12 +1,17 @@
 from django.urls import path
-
-from . import views
+from .views import HomeView, ContactsView, ProductDetailView, IndexView, PostListView, PostCreateView, PostDetailView, \
+    PostUpdateView, PostDeleteView
 
 app_name = 'catalog'
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('contacts/', views.contacts, name='contacts'),
-    path('index/<int:pk>/', views.product_detail, name='product_detail'),
-    path('index/', views.index, name='index'),
+    path('', HomeView.as_view(), name='home'),
+    path('contacts/', ContactsView.as_view(), name='contacts'),
+    path('index/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
+    path('index/', IndexView.as_view(), name='index'),
+    path('blog/', PostListView.as_view(), name='post_list'),
+    path('blog/post_create/', PostCreateView.as_view(), name='post_create'),
+    path('post_detail/<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
+    path('<slug:slug>/edit/', PostUpdateView.as_view(), name='post_edit'),
+    path('<slug:slug>/delete/', PostDeleteView.as_view(), name='post_confirm_delete'),
 ]

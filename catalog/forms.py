@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from .models import Product, Post
 
 
 class FeedbackForm(forms.Form):
@@ -18,3 +18,11 @@ class ProductUpdateForm(forms.ModelForm):
     class Meta:
         model = Product
         exclude = ()
+
+
+class PostForm(forms.ModelForm):
+    slug = forms.CharField(widget=forms.HiddenInput, required=False)
+
+    class Meta:
+        model = Post
+        fields = '__all__'

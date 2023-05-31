@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load mediapath %}
+<div class="container">
+    <h1 class="text-center">Список записей</h1>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" style="text-align: center">ID</th>
+            <th scope="col" style="text-align: center">Заголовок</th>
+            <th scope="col" style="text-align: center">Содержание</th>
+            <th scope="col" style="text-align: center">Превью</th>
+            <th scope="col" style="text-align: center">Просмотры</th>
+            <th scope="col" style="text-align: center"></th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider table-divider-primary">
+        {% for object in object_list %}
+        {% if object.is_published %}
+        <tr>
+            <th scope="row">{{ object.pk }}</th>
+            <td>{{ object.title }}</td>
+            <td>{{ object.content|truncatechars:100 }}</td>
+            <td>
+                <img src="{{ object.preview.url }}" class="rounded mx-auto d-block" alt="" height="100">
+            </td>
+            <td style="text-align: center">{{ object.views_count }}</td>
+            <td>
+                <a href="{{ object.get_absolute_url }}" class="btn btn-info btn-sm">Перейти к записи</a>
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="container" style="text-align: center">
+        <a href="{% url 'catalog:post_create' %}" class="btn btn-outline-secondary btn-lg my-3"
+           style="border-radius: 25px; padding: 10px 25px; font-size: 20px; font-weight: bold;">
+            Создать запись
+        </a>
+    </div>
+</div>
+{% endblock %}

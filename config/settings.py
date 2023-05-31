@@ -133,3 +133,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.inbox.ru'
+EMAIL_PORT = 587 # порт SMTP сервера
+EMAIL_USE_TLS = True # использовать TLS шифрование
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'ultrabob@inbox.ru' # email отправителя
+EMAIL_HOST_PASSWORD = '8hXtyAJXyM1uhTdJv9c3' # пароль отправителя

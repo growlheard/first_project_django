@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load mediapath %}
+{% block content %}
+<div class="container">
+    <div class="card text-center">
+        <div class="card-header">
+            <h1 class="card-title mb-0">{{ object.title }}</h1>
+            <div class="card-footer">
+                <img src="{% mediapath object.preview %}" alt="{{ object.title }}" width="500" height="300">
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="lead">{{ object.content }}</p>
+            <h4 class="card-title">Количество просмотров: {{ object.views_count }} </h4>
+            <a href="{% url 'catalog:post_edit' object.slug %}" class="btn btn-primary">Редактировать запись</a>
+             <a href="{% url 'catalog:post_confirm_delete' object.slug %}" class="btn btn-primary">Удалить запись</a>
+            <a href="{% url 'catalog:post_list' %}" class="btn btn-secondary">Назад</a>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">{{ object.created_at | date }}</small>
+        </div>
+    </div>
+</div>
+{% endblock %}
