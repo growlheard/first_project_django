@@ -7,8 +7,8 @@ NULLABLE = {'blank': True, 'null': True}
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Наименование')
-    description = models.TextField(max_length=255, verbose_name='Описание')
+    name = models.CharField(max_length=100, verbose_name='Наименование')
+    description = models.TextField(max_length=100, verbose_name='Описание')
 
     def __str__(self):
         return f'{self.name} {self.description}'
@@ -63,3 +63,18 @@ class Post(models.Model):
         verbose_name = 'Запись в блоге'
         verbose_name_plural = 'Записи в блоге'
         ordering = ['-created_at']
+
+
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')
+    version_number = models.IntegerField(verbose_name='Номер версии')
+    version_name = models.CharField(max_length=100, verbose_name='Название версии')
+    is_active = models.BooleanField(default=False, verbose_name='Активная версия')
+
+    def __str__(self):
+        return f"{self.product} - Версия {self.version_number}"
+
+    class Meta:
+        verbose_name = 'Версия'
+        verbose_name_plural = 'Версии'
+

@@ -6,14 +6,17 @@
         <div class="card-header">
             <h1 class="card-title mb-0">{{ product.name }}</h1>
             <div class="card-footer">
-                        <img src="{% mediapath product.image %}" alt="{{ product.name }}"width="500" height="300">
-                    </div>
+                <img src="{% mediapath product.image %}" alt="{{ product.name }}" width="500" height="300">
+            </div>
             <small class="text-muted">{{ product.category }}</small>
         </div>
         <div class="card-body">
             <p class="lead">{{ product.description }}</p>
             <h4 class="card-title">{{ product.price }} руб.</h4>
             <a href="#" class="btn btn-primary">Купить</a>
+            <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-primary">Редактировать товар</a>
+             <a href="{% url 'catalog:index' %}" class="btn btn-primary">Назад</a>
+            <a href="{% url 'catalog:product_delete' object.pk %}" class="btn btn-danger">Удалить</a>
         </div>
         <div class="card-footer">
             <small class="text-muted">{{ product.changed_date | date }}</small>

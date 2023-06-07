@@ -1,20 +1,18 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
+<h1>Новая запись в Блог</h1>
    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-sm-8 col-md-6 col-lg-4 bg-light p-3 rounded">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <form method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <div class="form-group text-center">
-                                <button class="btn btn-success mt-3" type="submit">Сохранить</button>
-                            </div>
-                        </form>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="form-group">
+                        <button class="btn btn-success mt-3" type="submit">Сохранить</button>
+                        <a href="{% url 'catalog:post_list' %}" class="btn btn-secondary mt-3">Назад</a>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
