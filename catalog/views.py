@@ -1,8 +1,12 @@
+from django.db import transaction
+from django.db.models import Prefetch
+from django.forms import inlineformset_factory
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from .tasks import send_congratulations
 from django.views.generic import TemplateView, FormView, DetailView, ListView, CreateView, UpdateView, DeleteView
-from .forms import FeedbackForm, PostForm
-from .models import Product, Category, Post
+from .forms import FeedbackForm, PostForm, ProductForm, VersionForm
+from .models import Product, Category, Post, Version
 
 
 class HomeView(TemplateView):
@@ -16,17 +20,6 @@ class HomeView(TemplateView):
         for product in latest_products:
             print(product.name)
         return context
-
-
-# def home(request):
-#   latest_products = Product.objects.order_by('created_at')[:5]
-#   for products in latest_products:
-#       print(products.name)
-#   context = {
-#       'object_list': Product.objects.all(),
-#       'category_list': Category.objects.all()
-#   }
-#   return render(request, 'catalog/home.html', context)
 
 
 class ContactsView(FormView):
@@ -51,25 +44,54 @@ class ContactsView(FormView):
         return context
 
 
-# def contacts(request):
-#    if request.method == 'POST':
-#        form = FeedbackForm(request.POST)
-#        if form.is_valid():
-#            return render(request, 'catalog/contacts.html', {'success': True})
-#        print('Запись получена')
-#    else:
-#        form = FeedbackForm()
-#    return render(request, 'catalog/contacts.html', {'form': form, 'success': False})
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'
 
 
-# def product_detail(request, pk):
-#    product = Product.objects.get(pk=pk)
-#    context = {'product': product}
-#    return render(request, 'catalog/product_detail.html', context)
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_create.html'
+    success_url = reverse_lazy('catalog:index')
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_update.html'
+    success_url = reverse_lazy('catalog:index')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+
+        if self.request.method == 'POST':
+            context_data['formset'] = VersionFormset(self.request.POST, instance=self.object)
+        else:
+            context_data['formset'] = VersionFormset(instance=self.object)
+        return context_data
+
+    def form_valid(self, form):
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+        self.object = form.save()
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
+
+        context_data['versions'] = self.object.version_set.all()
+
+        return super().form_valid(form)
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'catalog/product_confirm_delete.html'
+    success_url = reverse_lazy('catalog:index')
+
+
 class IndexView(ListView):
     model = Product
     template_name = 'catalog/index.html'
@@ -77,21 +99,12 @@ class IndexView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        queryset = queryset.prefetch_related(Prefetch('version_set', queryset=Version.objects.filter(is_active=True)))
         for product in queryset:
             if len(product.description) > 100:
                 product.description = product.description[:100] + '...'
         return queryset
 
-
-# def index(request):
-#    products = Product.objects.all()
-#
-#    for product in products:
-#        if len(product.description) > 100:
-#            product.description = product.description[:100] + '...'
-#
-#    context = {'products': products}
-#    return render(request, 'catalog/index.html', context)
 
 class PostListView(ListView):
     model = Post
@@ -134,6 +147,10 @@ class PostUpdateView(UpdateView):
     fields = ['title', 'preview', 'content']
     template_name = 'catalog/post_edit.html'
     success_url = reverse_lazy('catalog:post_list')
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return super().form_valid(form)
 
 
 class PostDeleteView(DeleteView):
