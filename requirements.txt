@@ -5,7 +5,7 @@ click
 click-didyoumean
 click-plugins
 click-repl
-colorama=
+colorama
 crispy-bootstrap5
 Django
 django-crispy-forms
