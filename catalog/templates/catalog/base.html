@@ -3,6 +3,11 @@
 <html>
 <head>
     <title>Skystore</title>
+    <!-- Bootstrap core CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 <!doctype html>
@@ -60,18 +65,46 @@
     </div>
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
-            <a href="#" class="navbar-brand d-flex align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-basket2-fill" viewBox="0 0 16 16">
-                    <path d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1z"/>
-                </svg>&nbsp;<strong>Перейти в корзину</strong>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
-                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-    </div>
+            {% if user.is_authenticated %}
+            <div class="d-flex flex-column align-items-center my-1">
+                <a href="{% url 'users:logout' %}" class="navbar-brand">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-basket2-fill" viewBox="0 0 16 16">
+                    </svg>
+                    <span>&nbsp;<strong>Выйти</strong></span>
+                </a>
+                <a href="{% url 'users:profile' %}" class="navbar-brand mt-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-basket2-fill" viewBox="0 0 16 16">
+                    </svg>
+                    <span>&nbsp;<strong>Профиль</strong></span>
+                    </button>
+</header>
+{% else %}
+<div class="d-flex flex-column align-items-center my-1">
+    <a href="{% url 'users:login' %}" class="navbar-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+             class="bi bi-basket2-fill" viewBox="0 0 16 16">
+        </svg>
+        <span>&nbsp;<strong>Войти</strong></span>
+    </a>
+    <a href="{% url 'users:register' %}" class="navbar-brand mt-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+             class="bi bi-basket2-fill" viewBox="0 0 16 16">
+        </svg>
+        <span>&nbsp;<strong>Регистрация</strong></span>
+    </a>
+</div>
+{% endif %}
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarHeader"
+        aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+</div>
+</div>
+</header>
+
 </header>
 
 <main>
@@ -84,7 +117,7 @@
                 <div class="btn-group" role="group">
                     <a class="p-2 btn btn-outline-primary" href="/index/">Просмотреть каталог</a>
                     <a class="p-2 btn btn-outline-primary" href="/blog/">Просмотреть блог</a>
-                     <a class="p-2 btn btn-outline-primary" href="/product_create/">Создать карточку товара</a>
+                    <a class="p-2 btn btn-outline-primary" href="/product_create/">Создать карточку товара</a>
                 </div>
             </div>
         </div>

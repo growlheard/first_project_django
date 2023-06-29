@@ -1,13 +1,15 @@
 {% extends 'catalog/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<h1>Добавление нового продукта</h1>
+<h1>Регистрация</h1>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
 
     <div class="form-group text-center">
-        <button class="btn btn-success mt-3" type="submit">Сохранить</button>
+        <button class="btn btn-success mt-3" type="submit">Регистрация</button>
          <a href="{% url 'catalog:index' %}" class="btn btn-secondary mt-3">Назад</a>
+        <a href="{% url 'users:password_reset' %}" class="btn btn-link">Забыли пароль?</a>
+    </div>
 </form>
 {% endblock %}

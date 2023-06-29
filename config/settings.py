@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'catalog',
     'crispy_forms',
     'crispy_bootstrap5',
+    'users',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -138,7 +139,13 @@ EMAIL_HOST = 'smtp.inbox.ru'
 EMAIL_PORT = 587  # порт SMTP сервера
 EMAIL_USE_TLS = True  # использовать TLS шифрование
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'ваш имеил адрес'  # email отправителя
-EMAIL_HOST_PASSWORD = 'ваш пароль'  # пароль отправителя
+EMAIL_HOST_USER = 'ultrabob@inbox.ru'  # email отправителя
+EMAIL_HOST_PASSWORD = 'F2AV6xnGWt4p6M7px3nE'  # пароль отправителя
+DEFAULT_CHARSET = 'utf-8'
 
+
+AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = 'users:login'
 
