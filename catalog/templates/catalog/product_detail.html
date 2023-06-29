@@ -14,9 +14,13 @@
             <p class="lead">{{ product.description }}</p>
             <h4 class="card-title">{{ product.price }} руб.</h4>
             <a href="#" class="btn btn-primary">Купить</a>
-            <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-primary">Редактировать товар</a>
-             <a href="{% url 'catalog:index' %}" class="btn btn-primary">Назад</a>
-            <a href="{% url 'catalog:product_delete' object.pk %}" class="btn btn-danger">Удалить</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-primary">Редактировать товар</a>
+                {% if product.owner %}
+                    <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+                {% endif %}
+            {% endif %}
+            <a href="{% url 'catalog:index' %}" class="btn btn-primary">Назад</a>
         </div>
         <div class="card-footer">
             <small class="text-muted">{{ product.changed_date | date }}</small>
@@ -31,4 +35,6 @@
                 background-color: #f8f9fa;
             }
         </style>
-        {% endblock %}
+    </div>
+</div>
+{% endblock %}

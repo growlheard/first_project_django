@@ -25,7 +25,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ('owner',)
 
     def clean(self):
         cleaned_data = super().clean()

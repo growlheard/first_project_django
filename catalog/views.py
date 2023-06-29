@@ -20,7 +20,6 @@ class HomeView(TemplateView):
             print(product.name)
         return context
 
-
 class ContactsView(FormView):
     template_name = 'catalog/contacts.html'
     form_class = FeedbackForm
@@ -56,7 +55,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('catalog:index')
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        form.instance.owner = self.request.user
         return super().form_valid(form)
 
 
@@ -89,7 +88,7 @@ class ProductUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:index')
