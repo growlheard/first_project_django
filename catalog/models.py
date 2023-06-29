@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from unidecode import unidecode
 
+from config import settings
 NULLABLE = {'blank': True, 'null': True}
 
 
@@ -22,9 +23,10 @@ class Category(models.Model):
 class Product(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='ID')
     name = models.CharField(max_length=255, verbose_name='Название продукта')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None,  verbose_name='Владелец')
     description = models.TextField(max_length=255, verbose_name='Описание Продукта', **NULLABLE)
     image = models.ImageField(upload_to='product_images/', verbose_name='', **NULLABLE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория', **NULLABLE)
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Цена за покупку')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')

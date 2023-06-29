@@ -1,7 +1,6 @@
-from django.db import transaction
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Prefetch
 from django.forms import inlineformset_factory
-from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from .tasks import send_congratulations
 from django.views.generic import TemplateView, FormView, DetailView, ListView, CreateView, UpdateView, DeleteView
@@ -20,7 +19,6 @@ class HomeView(TemplateView):
         for product in latest_products:
             print(product.name)
         return context
-
 
 class ContactsView(FormView):
     template_name = 'catalog/contacts.html'
@@ -50,11 +48,15 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_create.html'
     success_url = reverse_lazy('catalog:index')
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
 
 class ProductUpdateView(UpdateView):
@@ -86,7 +88,7 @@ class ProductUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:index')
@@ -95,7 +97,7 @@ class ProductDeleteView(DeleteView):
 class IndexView(ListView):
     model = Product
     template_name = 'catalog/index.html'
-    context_object_name = 'products'
+    context_object_name = 'product_list'
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -113,10 +115,16 @@ class PostListView(ListView):
     context_object_name = 'post_list'
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'catalog/post_create.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
 
     def get_success_url(self):
         obj = self.object
