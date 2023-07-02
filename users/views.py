@@ -76,7 +76,6 @@ class UserPasswordResetView(FormView):
         recipient_list = [email]
         send_mail(subject, message, from_email, recipient_list)
 
-        # передача переменной form_submitted в шаблон
         context = self.get_context_data(form=form)
         context['form_submitted'] = True
         return self.render_to_response(context)
