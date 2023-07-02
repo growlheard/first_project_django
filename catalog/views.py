@@ -2,10 +2,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.db.models import Prefetch
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy, reverse
-from .tasks import send_congratulations
 from django.views.generic import TemplateView, FormView, DetailView, ListView, CreateView, UpdateView, DeleteView
 from .forms import FeedbackForm, PostForm, ProductForm, VersionForm
-from .models import Product, Category, Post, Version
+from .models import Product, Post, Version
+from .service.caches.service_cache import get_categories
+from .service.messages.utils import send_congratulations
 
 
 class HomeView(TemplateView):
@@ -15,7 +16,7 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         latest_products = Product.objects.order_by('created_at')[:5]
         context['object_list'] = Product.objects.all()
-        context['category_list'] = Category.objects.all()
+        context['category_list'] = get_categories()
         for product in latest_products:
             print(product.name)
         return context

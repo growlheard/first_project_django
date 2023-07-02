@@ -20,3 +20,5 @@ tzdata
 Unidecode
 vine
 wcwidth
+redis
+python-dotenv
