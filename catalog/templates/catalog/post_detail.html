@@ -12,8 +12,12 @@
         <div class="card-body">
             <p class="lead">{{ object.content }}</p>
             <h4 class="card-title">Количество просмотров: {{ object.views_count }} </h4>
+           {% if user.is_authenticated %}
+            {% if object.owner == user %}
             <a href="{% url 'catalog:post_edit' object.slug %}" class="btn btn-primary">Редактировать запись</a>
-             <a href="{% url 'catalog:post_confirm_delete' object.slug %}" class="btn btn-primary">Удалить запись</a>
+            <a href="{% url 'catalog:post_confirm_delete' object.slug %}" class="btn btn-primary">Удалить запись</a>
+            {% endif %}
+            {% endif %}
             <a href="{% url 'catalog:post_list' %}" class="btn btn-secondary">Назад</a>
         </div>
         <div class="card-footer">
