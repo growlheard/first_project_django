@@ -15,8 +15,8 @@
             <h4 class="card-title">{{ product.price }} руб.</h4>
             <a href="#" class="btn btn-primary">Купить</a>
             {% if user.is_authenticated %}
-                <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-primary">Редактировать товар</a>
-                {% if product.owner %}
+                {% if product.owner == user %}
+                    <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-primary">Редактировать товар</a>
                     <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
                 {% endif %}
             {% endif %}

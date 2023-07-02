@@ -5,7 +5,7 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
-
+ <a href="{% url 'users:password_reset' %}" class="btn btn-link">Забыли пароль?</a>
     <div class="form-group text-center">
         <button class="btn btn-success mt-3" type="submit">Войти</button>
          <a href="{% url 'catalog:index' %}" class="btn btn-secondary mt-3">Назад</a>

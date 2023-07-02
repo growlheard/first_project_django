@@ -22,12 +22,13 @@ class Category(models.Model):
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='ID')
-    name = models.CharField(max_length=255, verbose_name='Название продукта')
+    name = models.CharField(max_length=255, verbose_name='Продукт')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None,  verbose_name='Владелец')
     description = models.TextField(max_length=255, verbose_name='Описание Продукта', **NULLABLE)
     image = models.ImageField(upload_to='product_images/', verbose_name='', **NULLABLE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория', **NULLABLE)
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Цена за покупку')
+    is_published = models.BooleanField(default=False, verbose_name='Признак публикации')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')
 
@@ -35,8 +36,8 @@ class Product(models.Model):
         return f'{self.name} - {self.price}: {self.category}'
 
     class Meta:
-        verbose_name = 'Название продукта'
-        verbose_name_plural = 'Название продуктов'
+        verbose_name = 'Продукт'
+        verbose_name_plural = 'Продукты'
         ordering = ('name',)
 
 
@@ -48,6 +49,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     views_count = models.PositiveIntegerField(default=0, verbose_name='Количество просмотров')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None, verbose_name='Владелец')
 
     def save(self, *args, **kwargs):
         print('Saving post:', self.title)

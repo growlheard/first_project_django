@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Prefetch
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy, reverse
@@ -19,6 +19,7 @@ class HomeView(TemplateView):
         for product in latest_products:
             print(product.name)
         return context
+
 
 class ContactsView(FormView):
     template_name = 'catalog/contacts.html'
@@ -59,7 +60,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_update.html'
@@ -94,6 +95,7 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('catalog:index')
 
 
+
 class IndexView(ListView):
     model = Product
     template_name = 'catalog/index.html'
@@ -121,19 +123,13 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     template_name = 'catalog/post_create.html'
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-
+        form.instance.owner = self.request.user
+        response = super().form_valid(form)
+        return response
 
     def get_success_url(self):
         obj = self.object
         return reverse('catalog:post_detail', kwargs={'slug': obj.slug})
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        self.object.save()
-        return response
 
 
 class PostDetailView(DetailView):
@@ -150,7 +146,7 @@ class PostDetailView(DetailView):
         return obj
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
     fields = ['title', 'preview', 'content']
     template_name = 'catalog/post_edit.html'
@@ -161,7 +157,7 @@ class PostUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = 'catalog/post_confirm_delete.html'
     context_object_name = 'post'

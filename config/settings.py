@@ -139,8 +139,8 @@ EMAIL_HOST = 'smtp.inbox.ru'
 EMAIL_PORT = 587  # порт SMTP сервера
 EMAIL_USE_TLS = True  # использовать TLS шифрование
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = ''  # email отправителя
-EMAIL_HOST_PASSWORD = ''  # пароль отправителя
+EMAIL_HOST_USER = 'ultrabob@inbox.ru'  # email отправителя
+EMAIL_HOST_PASSWORD = 'F2AV6xnGWt4p6M7px3nE'  # пароль отправителя
 DEFAULT_CHARSET = 'utf-8'
 
 
