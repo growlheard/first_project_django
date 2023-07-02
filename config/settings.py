@@ -146,6 +146,7 @@ EMAIL_USE_TLS = True  # использовать TLS шифрование
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # email отправителя
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # пароль отправителя
+
 DEFAULT_CHARSET = 'utf-8'
 
 AUTH_USER_MODEL = 'users.User'
